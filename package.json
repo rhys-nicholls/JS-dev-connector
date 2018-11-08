@@ -1,0 +1,36 @@
+{
+  "name": "devconnector",
+  "version": "1.0.0",
+  "description": "Dev Connector social network",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhys-nicholls/JS-dev-connector.git"
+  },
+  "author": "Rhys Nicholls",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rhys-nicholls/JS-dev-connector/issues"
+  },
+  "homepage": "https://github.com/rhys-nicholls/JS-dev-connector#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.10",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.6"
+  }
+}
