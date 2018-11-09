@@ -6,6 +6,10 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const keys = require('../../config/keys');
 
+// Load Input Validation
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
 // Load User model
 const User = require('../../models/User');
 
@@ -20,9 +24,17 @@ router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
 // @desc    Register a user
 // @access  Public
 router.post('/register', (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
+
   User.findOne({ email: req.body.email })
     .then((user) => {
-      if (user) return res.status(400).json({ email: 'Email already exists' });
+      if (user) {
+        errors.email = 'Email already exists';
+        return res.status(400).json(errors);
+      }
 
       const avatar = gravatar.url(req.body.email, {
         s: '200', // Size
@@ -56,12 +68,19 @@ router.post('/register', (req, res) => {
 // @desc    Login user / Return JWT token
 // @access  Public
 router.post('/login', (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check Validation
+  if (!isValid) return res.status(400).json(errors);
   const formData = req.body;
 
   // Find user by email
   User.findOne({ email: formData.email })
     .then((user) => {
-      if (!user) return res.status(404).json({ email: 'User not found' });
+      if (!user) {
+        errors.email = 'User not found';
+        return res.status(404).json({ email: 'User not found' });
+      }
 
       bcrypt.compare(formData.password, user.password)
         .then((isMatch) => {
@@ -77,7 +96,8 @@ router.post('/login', (req, res) => {
               res.json({ success: true, token: `Bearer ${token}` });
             });
           } else {
-            return res.status(400).json({ password: 'Password Incorrect' });
+            errors.password = 'Password Incorrect';
+            return res.status(400).json(errors);
           }
         });
     });
