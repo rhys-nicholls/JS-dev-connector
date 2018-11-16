@@ -1,6 +1,6 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 const express = require('express');
-const mongoose = require('mongoose');
 const passport = require('passport');
 
 const router = express.Router();
@@ -53,7 +53,7 @@ router.get('/all', (req, res) => {
 
       res.json(profiles);
     })
-    .catch(err => res.status(404).json({ profile: 'There are no profiles' }));
+    .catch(() => res.status(404).json({ profile: 'There are no profiles' }));
 });
 
 // @route   GET api/profile/handle/:handle
@@ -91,7 +91,7 @@ router.get('/user/:user_id', (req, res) => {
 
       res.json(profile);
     })
-    .catch(err => res.status(404).json({ profile: 'There is no profile for this user' }));
+    .catch(() => res.status(404).json({ profile: 'There is no profile for this user' }));
 });
 
 // @route   POST api/profile/
