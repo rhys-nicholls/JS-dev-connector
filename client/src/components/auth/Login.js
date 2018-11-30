@@ -8,8 +8,6 @@ class Login extends Component {
       password: '',
       errors: {},
     };
-
-
   }
 
   onChange = (event) => {
