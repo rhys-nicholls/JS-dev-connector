@@ -1,10 +1,15 @@
-import { TEST_DISPATCH} from './types';
+import axios from 'axios';
+import { GET_ERRORS } from './types';
 
 // Register User
 // This is an action creator
-export const registerUser = (userData) => {
-  return {
-    type: TEST_DISPATCH,
-    payload: userData,
-  };
+export const registerUser = (userData, history) => dispatch => {
+  axios.post('./api/users/register', userData)
+  .then(() => history.push('/login'))
+  .catch(err => 
+    dispatch({
+      type: GET_ERRORS, 
+      payload: err.response.data
+    })
+  );
 };
