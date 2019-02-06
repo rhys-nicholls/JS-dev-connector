@@ -1,14 +1,16 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { clearCurrentProfile } from '../../actions/profileActions';
+import { logoutUser } from '../../actions/authActions';
 
 class Navbar extends Component {
-onLogoutClick(event) {
-  event.preventDefault();
-  this.props.logoutUser();
-}
+  onLogoutClick(event) {
+    event.preventDefault();
+    this.props.clearCurrentProfile();
+    this.props.logoutUser();
+  }
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
@@ -19,13 +21,15 @@ onLogoutClick(event) {
           <a
             href=""
             onClick={this.onLogoutClick.bind(this)}
-            className="nav-link">
+            className="nav-link"
+          >
             <img
-            className="rounded-circle"
-            style={{ width: '25px', marginRight: '5px'}}
-            src={user.avatar} 
-            alt={user.name} 
-            title="You must have a Gravatar connected to your email to display a profile image"/>
+              className="rounded-circle"
+              style={{ width: '25px', marginRight: '5px' }}
+              src={user.avatar}
+              alt={user.name}
+              title="You must have a Gravatar connected to your email to display a profile image"
+            />
             Logout
           </a>
         </li>
@@ -66,7 +70,7 @@ onLogoutClick(event) {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 <Link className="nav-link" to="/profile">
-                  {" "}
+                  {' '}
                   Developers
                 </Link>
               </li>
@@ -90,5 +94,6 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser }
+  { logoutUser,
+  clearCurrentProfile }
 )(Navbar);
