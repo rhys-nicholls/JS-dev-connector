@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import InputGroup from '../common/InputGroup';
+import { createProfile } from '../../actions/profileActions'
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -12,7 +14,7 @@ class CreateProfile extends Component {
     this.state = {
       displaySocialInputs: false,
       handle: '',
-      company: '',
+      company: '',  
       website: '',
       location: '',
       status: '',
@@ -28,9 +30,32 @@ class CreateProfile extends Component {
     };
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  };
+
   onSubmit = event => {
     event.preventDefault();
-    console.log('Submit');
+
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubusername: this.state.githubusername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+
+    this.props.createProfile(profileData, this.props.history);
   };
 
   onChange = event => {
@@ -44,7 +69,7 @@ class CreateProfile extends Component {
     if (displaySocialInputs) {
       socialInputs = (
         <div>
-        <InputGroup
+          <InputGroup
             placeholder="Twitter Profile URL"
             name="twitter"
             icon="fab fa-twitter"
@@ -89,8 +114,8 @@ class CreateProfile extends Component {
             error={errors.instagram}
           />
         </div>
-      )  
-    } 
+      );
+    }
     // Select options for status
     const options = [
       { label: '* Select Professional Status', value: 0 },
@@ -183,16 +208,24 @@ class CreateProfile extends Component {
                 />
                 <div className="mb-3">
                   <button
+                    type="button"
                     onClick={() => {
                       this.setState(prevState => ({
                         displaySocialInputs: !prevState.displaySocialInputs
                       }));
                     }}
-                    className="btn btn-light">Add Social Network Links</button>
-                    <span className="text-muted"> Optional</span>
+                    className="btn btn-light"
+                  >
+                    Add Social Network Links
+                  </button>
+                  <span className="text-muted"> Optional</span>
                 </div>
                 {socialInputs}
-                <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-info btn-block mt-4"
+                />
               </form>
             </div>
           </div>
@@ -209,7 +242,7 @@ CreateProfile.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  errors: state.erros
+  errors: state.errors
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(mapStateToProps, { createProfile })(withRouter(CreateProfile));
