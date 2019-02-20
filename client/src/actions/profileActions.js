@@ -5,8 +5,7 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   GET_ERRORS,
-  CLEAR_CURRENT_PROFILE,
-  SET_CURRENT_USER
+  CLEAR_CURRENT_PROFILE
 } from './types';
 
 // Get current profile
@@ -39,6 +38,30 @@ export const addExperience = (expData, history) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// Delete Experience
+export const deleteExperience = id => dispatch => {
+  if (
+    window.confirm(
+      ' Are you sure you want to delete this experience entry from your profile?'
+    )
+  ) {
+    axios
+      .delete(`/api/profile/experience/${id}`)
+      .then(res =>
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        })
+      )
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
 };
 
 // Add Education
