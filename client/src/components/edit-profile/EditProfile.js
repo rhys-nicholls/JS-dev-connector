@@ -74,7 +74,6 @@ class EditProfile extends Component {
         youtube,
         instagram
        })
-
     }
   };
 
