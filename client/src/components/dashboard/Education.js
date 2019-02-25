@@ -23,9 +23,10 @@ import { deleteEducation } from '../../actions/profileActions';
         <td><button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger">Delete</button></td>
       </tr>
     ))
+
     return (
       <div>
-        <h4 className="mb-4">E Credentials</h4>
+        <h4 className="mb-4">Education Credentials</h4>
         <table className="table">
           <thead>
             <tr>
