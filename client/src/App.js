@@ -24,6 +24,7 @@ import AddEducation from './components/add-credentials/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
+import Posts from './components/posts/Posts';
 
 import './App.css';
 
@@ -38,7 +39,7 @@ if (localStorage.jwtToken) {
 
   // Check for expired token
   const currentTime = Date.now() / 1000;
-  if(decoded.exp < currentTime) {
+  if (decoded.exp < currentTime) {
     // Log user out
     store.dispatch(logoutUser());
     // Clear current Profile
@@ -48,7 +49,6 @@ if (localStorage.jwtToken) {
   }
 }
 
-
 class App extends Component {
   render() {
     return (
@@ -56,9 +56,9 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path='/' component={Landing} />
-            <div className='container'>
-              <Route exact path='/login' component={Login} />
+            <Route exact path="/" component={Landing} />
+            <div className="container">
+              <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/profiles" component={Profiles} />
               <Route exact path="/profile/:handle" component={Profile} />
@@ -67,16 +67,39 @@ class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/create-profile" component={CreateProfile} />
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={EditProfile}
+                />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/add-experience" component={AddExperience} />
+                <PrivateRoute
+                  exact
+                  path="/add-experience"
+                  component={AddExperience}
+                />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/add-education" component={AddEducation} />
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/feed"
+                  component={Posts}
+                />
               </Switch>
             </div>
             <Footer />
